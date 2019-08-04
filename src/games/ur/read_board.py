@@ -1,4 +1,5 @@
 from src.games.common.utils import *
+from src.games.common.Vec2 import Vec2
 from src.games.ur.Tile import Tile
 
 
@@ -13,7 +14,7 @@ def read_board(ctx, board_filename):
   def read_value(name, value_type):
     nonlocal header_lines_idx
     split = lines[header_lines_idx].split('=')
-    header_lines_idx = header_lines_idx + 1
+    header_lines_idx += 1
     if split[0] != name:
       raise RuntimeError(f"{err_str}: : Expected attribute '{name}' but got '{split[0]}'.")
     try:
@@ -47,12 +48,16 @@ def read_board(ctx, board_filename):
   players_starts = {}
   players_finishes = {}
   ctx.board = []
-  for row in range(len(lines) - header_lines_idx):
+  ctx.board_size.y = len(lines) - header_lines_idx
+  for row in range(ctx.board_size.y):
     line_idx = row + header_lines_idx
     line = lines[line_idx]
     line_split = line.split(';')
     ctx.board.append([])
+    ctx.board_size.x = max(ctx.board_size.x, len(line_split))
     for col in range(len(line_split)):
+      if not line_split[col]:
+        ctx.board[row].append(None)
       tile_split = line_split[col].split(',')
       loc_str = f"row={line_idx}, col={col}"
       tile = Tile()
@@ -93,12 +98,16 @@ def read_board(ctx, board_filename):
           continue
         if attr == "start":
           tile.start = True
-          append_start_finish(tile, players_starts, Position(row, col), loc_attr_str)
+          append_start_finish(tile, players_starts, Vec2(row, col), loc_attr_str)
           continue
         if attr == "finish":
           tile.finish = True
-          append_start_finish(tile, players_finishes, Position(row, col), loc_attr_str)
+          append_start_finish(tile, players_finishes, Vec2(row, col), loc_attr_str)
           continue
         raise RuntimeError(f"{err_str}: Unknown attribute '{attr}' at {loc_attr_str}")
       ctx.board[row].append(tile)
+  # Add None to make each row the same length
+  for row in range(ctx.board_size.y):
+    while len(ctx.board[row]) < ctx.board_size.x:
+      ctx.board[row].append(None)
   return players_starts, players_finishes
