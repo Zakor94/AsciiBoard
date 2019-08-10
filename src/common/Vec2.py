@@ -1,7 +1,13 @@
 class Vec2:
-  def __init__(self, y, x):
+  def __init__(self, y: int, x: int):
     self.y = y
     self.x = x
+
+  def __eq__(self, other):
+    return self.x == other.x and self.y == other.y
+
+  def __ne__(self, other):
+    return self.x != other.x or self.y != other.y
 
   def __add__(self, val):
     return Vec2(self.y + val[0], self.x + val[1])

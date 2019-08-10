@@ -1,5 +1,5 @@
 nb_players=2
-nb_pieces_per_player=7
+nb_tokens_per_player=7
 r,0,rethrow; d,0,1             ; l,1,rethrow
 u,0        ; d,0,1             ; u,1
 u,0        ; d,0,1             ; u,1

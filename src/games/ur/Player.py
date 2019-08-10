@@ -1,6 +1,13 @@
+from typing import List
+
+from src.common.Vec2 import Vec2
+
+
 class Player:
-  def __init__(self, id_, nb_pieces, starts, finishes):
-    self.id = id_
-    self.pieces = [None] * nb_pieces
+  tokens: List[Vec2]
+
+  def __init__(self, idx: int, nb_tokens: int, starts: List[Vec2], finishes: List[Vec2]):
+    self.idx = idx
+    self.tokens = [starts[0]] * nb_tokens
     self.starts = starts
     self.finishes = finishes

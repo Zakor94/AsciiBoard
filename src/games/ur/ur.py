@@ -1,9 +1,10 @@
-from src.games.ur.Context import *
-from src.games.common.draw_utils import print_draw_space
+from src.games.ur.Options import Options
+from src.games.ur.UrContext import UrContext
 
 
 def run():
-  ctx = Context("src/games/ur/boards/default_board.txt")
+  opt = Options()
+  opt.board_filename = "src/games/ur/boards/default_board.txt"
+  ctx = UrContext(opt)
   ctx.draw()
-  print_draw_space(ctx.draw_space)
   input("")

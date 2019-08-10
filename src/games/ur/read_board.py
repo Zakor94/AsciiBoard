@@ -1,6 +1,13 @@
-from src.games.common.utils import *
-from src.games.common.Vec2 import Vec2
+from src.common.Direction import Direction
+from src.common.Vec2 import Vec2
 from src.games.ur.Tile import Tile
+
+DIRECTIONS = {
+  'u': Direction.UP,
+  'd': Direction.DOWN,
+  'l': Direction.LEFT,
+  'r': Direction.RIGHT
+}
 
 
 def read_board(ctx, board_filename):
@@ -23,22 +30,22 @@ def read_board(ctx, board_filename):
       raise RuntimeError(f"{err_str}: : Could not convert attribute '{name}' '{split[1]}' to type {value_type}.")
 
   ctx.nb_players = read_value("nb_players", int)
-  ctx.nb_pieces_per_player = read_value("nb_pieces_per_player", int)
+  ctx.nb_tokens_per_player = read_value("nb_tokens_per_player", int)
 
-  def read_access(attr, loc_attr_str):
+  def read_access(_attr, _loc_attr_str):
     try:
-      access = int(attr)
-      if access >= ctx.nb_players:
-        raise RuntimeError(
-          f"{err_str}: Player id {access} is greater than maximum number of player {ctx.nb_players} at {loc_attr_str}")
+      _access = int(_attr)
+      if _access >= ctx.nb_players:
+        raise RuntimeError(f"{err_str}: Player id {_access} is greater than maximum number of player {ctx.nb_players} "
+                           f"at {_loc_attr_str}")
     except ValueError:
-      access = None
-    return access
+      _access = None
+    return _access
 
-  def append_start_finish(tile, dic, pos, loc_attr_str):
-    if tile.rethrow or tile.safe or (tile.finish and tile.start):
-      raise RuntimeError(f"{err_str}: Tile cannot have other attributes than start or finish at {loc_attr_str}")
-    for a in tile.accesses:
+  def append_start_finish(_tile, dic, pos, _loc_attr_str):
+    if _tile.rethrow or _tile.safe or (_tile.finish and _tile.start):
+      raise RuntimeError(f"{err_str}: Tile cannot have other attributes than start or finish at {_loc_attr_str}")
+    for a in _tile.accesses:
       for player_id in a:
         if player_id in dic:
           dic[player_id].append(pos)
@@ -67,6 +74,7 @@ def read_board(ctx, board_filename):
       loc_attr_str = f"{loc_str}, attr=0"
       if not direction:
         raise RuntimeError(f"{err_str}: Expected direction but got '{attr}' at {loc_attr_str}")
+      tile.directions.append(direction)
       attr = tile_split[1].strip()
       loc_attr_str = f"{loc_str}, attr=1"
       access = read_access(attr, loc_attr_str)
