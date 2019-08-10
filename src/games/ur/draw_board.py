@@ -34,15 +34,15 @@ def _gen_draw_board(ctx, func: Callable[[Tile, Vec2, Vec2, Vec2], None]):
 
 def _tile_to_cc(tile: Tile) -> ColoredChar:
   if tile.start:
-    return ColoredChar(_TILE_START, 'green')
+    return ColoredChar(_TILE_START, 'green', ['bold'])
   if tile.finish:
-    return ColoredChar(_TILE_FINISH, 'red')
+    return ColoredChar(_TILE_FINISH, 'red', ['bold'])
   if tile.safe and tile.rethrow:
-    return ColoredChar(_TILE_SAFE_RETHROW, 'cyan')
+    return ColoredChar(_TILE_SAFE_RETHROW, 'cyan', ['bold'])
   if tile.safe:
-    return ColoredChar(_TILE_SAFE, 'blue')
+    return ColoredChar(_TILE_SAFE, 'blue', ['bold'])
   if tile.rethrow:
-    return ColoredChar(_TILE_RETHROW, 'yellow')
+    return ColoredChar(_TILE_RETHROW, 'yellow', ['bold'])
   return ColoredChar()
 
 
@@ -63,7 +63,6 @@ def draw_board(ctx, color_tile_properties: bool, possible_moves: List[Vec2]):
       edge_color = _tile_to_cc(tile).color
       if tile_pos in possible_moves:
         corner_color = 'magenta'
-        corner_attrs = ['bold']
     draw_rect(ctx, tile_draw_pos, ctx.draw_tile_size, edge_color=edge_color, corner_color=corner_color,
               corner_attrs=corner_attrs)
 
@@ -101,12 +100,13 @@ def draw_players_directions(ctx, players_id: List[int]):
       d = directions[0]
       accesses = tile.accesses[tile.directions.index(d)]
       color = ctx.options.get_player_color(accesses[0]) if len(accesses) == 1 else None
-      unchecked_draw(ctx, tile_draw_center, ColoredChar(_DIRECTION_TO_ASCII.get(d), color))
+      unchecked_draw(ctx, tile_draw_center, ColoredChar(_DIRECTION_TO_ASCII.get(d), color, ['bold']))
     else:
       for d in directions:
         accesses = tile.accesses[tile.directions.index(d)]
         color = ctx.options.get_player_color(accesses[0]) if len(accesses) == 1 else None
-        unchecked_draw(ctx, tile_draw_center + DIRECTION_TO_VEC.get(d), ColoredChar(_DIRECTION_TO_ASCII.get(d), color))
+        unchecked_draw(ctx, tile_draw_center + DIRECTION_TO_VEC.get(d),
+                       ColoredChar(_DIRECTION_TO_ASCII.get(d), color, ['bold']))
 
   _gen_draw_board(ctx, draw_func)
 
@@ -127,13 +127,13 @@ def draw_players_tokens(ctx, players_id: List[int]):
         player_nb_token_pairs.append((p_id, nb_tokens))
     pair_count = len(player_nb_token_pairs)
     if pair_count > 2:
-      unchecked_draw(ctx, tile_draw_center, ColoredChar(_TILE_TOO_MANY_PLAYERS))
+      unchecked_draw(ctx, tile_draw_center, ColoredChar(_TILE_TOO_MANY_PLAYERS, attrs=['bold']))
     else:
       offsets = [Vec2(0, 0)] if pair_count == 1 else [Vec2(0, -1), Vec2(0, 1)]
       for i in range(pair_count):
         player_id = player_nb_token_pairs[i][0]
         nb_token = player_nb_token_pairs[i][1]
         unchecked_draw(ctx, tile_draw_center + offsets[i],
-                       ColoredChar(str(nb_token), ctx.options.get_player_color(player_id)))
+                       ColoredChar(str(nb_token), ctx.options.get_player_color(player_id), ['bold']))
 
   _gen_draw_board(ctx, draw_func)

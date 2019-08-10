@@ -4,8 +4,8 @@ from src.common.Direction import Direction
 from src.common.Vec2 import Vec2
 from src.common.ColoredChar import *
 
-_HORIZONTAL = '─'
-_VERTICAL = '│'
+_HORIZONTAL = '━'
+_VERTICAL = '┃'
 
 
 class _DirectionsSet:
@@ -37,15 +37,15 @@ class _DirectionsSet:
 
 
 _CORNER_TO_DIRECTIONS = {
-  '┌': _DirectionsSet({Direction.DOWN, Direction.RIGHT}).mask,
-  '┐': _DirectionsSet({Direction.DOWN, Direction.LEFT}).mask,
-  '└': _DirectionsSet({Direction.UP, Direction.RIGHT}).mask,
-  '┘': _DirectionsSet({Direction.UP, Direction.LEFT}).mask,
-  '├': _DirectionsSet({Direction.UP, Direction.DOWN, Direction.RIGHT}).mask,
-  '┤': _DirectionsSet({Direction.UP, Direction.DOWN, Direction.LEFT}).mask,
-  '┬': _DirectionsSet({Direction.DOWN, Direction.RIGHT, Direction.LEFT}).mask,
-  '┴': _DirectionsSet({Direction.UP, Direction.RIGHT, Direction.LEFT}).mask,
-  '┼': _DirectionsSet({Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT}).mask
+  '┏': _DirectionsSet({Direction.DOWN, Direction.RIGHT}).mask,
+  '┓': _DirectionsSet({Direction.DOWN, Direction.LEFT}).mask,
+  '┗': _DirectionsSet({Direction.UP, Direction.RIGHT}).mask,
+  '┛': _DirectionsSet({Direction.UP, Direction.LEFT}).mask,
+  '┣': _DirectionsSet({Direction.UP, Direction.DOWN, Direction.RIGHT}).mask,
+  '┫': _DirectionsSet({Direction.UP, Direction.DOWN, Direction.LEFT}).mask,
+  '┳': _DirectionsSet({Direction.DOWN, Direction.RIGHT, Direction.LEFT}).mask,
+  '┻': _DirectionsSet({Direction.UP, Direction.RIGHT, Direction.LEFT}).mask,
+  '╋': _DirectionsSet({Direction.UP, Direction.DOWN, Direction.RIGHT, Direction.LEFT}).mask
 }
 
 _DIRECTIONS_TO_CORNER = {v: k for k, v in _CORNER_TO_DIRECTIONS.items()}
