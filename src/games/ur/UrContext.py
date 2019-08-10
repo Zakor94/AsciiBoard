@@ -21,7 +21,7 @@ class UrContext(Context):
     for i in range(self.nb_players):
       self.players.append(Player(i, self.nb_tokens_per_player, players_starts[i], players_finishes[i]))
 
-    self.draw_tile_size = Vec2(3, 5)
+    self.draw_tile_size = Vec2(5, 9)
     # The first rectangle is drawn in full but the others share one side
     draw_space_size = Vec2(self.draw_tile_size.y + (self.board_size.y - 1) * (self.draw_tile_size.y - 1),
                            self.draw_tile_size.x + (self.board_size.x - 1) * (self.draw_tile_size.x - 1))

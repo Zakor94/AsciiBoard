@@ -1,11 +1,5 @@
 nb_players=2
 nb_tokens_per_player=7
-r,0,rethrow; d,0,1             ; l,1,rethrow
-u,0        ; d,0,1             ; u,1
-u,0        ; d,0,1             ; u,1
-u,0        ; d,0,1,rethrow,safe; u,1
-u,0,start  ; d,0,1             ; u,1,start
-u,0,finish ; d,0,1             ; u,1,finish
-u,0        ; d,0,1             ; u,1
-u,0        ; d,0,1             ; u,1
-u,0,rethrow; l,0,r,1           ; u,1,rethrow
+d,1,rethrow; l,1; l,1; l,1; l,1,start; l,1,finish; l,1; l,1; l,1,rethrow
+r,0,1; r,0,1; r,0,1; r,0,1,rethrow,safe; r,0,1; r,0,1; r,0,1; r,0,1; d,0,u,1
+u,0,rethrow; l,0; l,0; l,0; l,0,start; l,0,finish; l,0; l,0; l,0,rethrow
